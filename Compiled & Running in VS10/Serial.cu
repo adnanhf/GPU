@@ -1,13 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
+#include <time.h>
+//#include <sys/time.h>
+
 //variabel global
-int i,j,maks=0,minimal=9999999,summin,summaks;
+int i,j,maks=0,minimal=9999999;
 
 int main(int argc, char *argv[]) {
     //Deklarasi Variabel
+    //struct timeval start, end; //Variabel execution timer
+    //double delta1,delta2;
     FILE *baca; //untuk membuka file txt
     char buf[4]; //digunakan pada sesi membaca file txt
     int a[100][100],b; //matriks yang akan diisi oleh variabel b
+
+	//Starting Clock Time 
+	clock_t begin = clock();
 
     //Sesi 1: Membaca txt File
     baca=fopen("MatrixTubes1.txt","r");
@@ -38,8 +47,10 @@ int main(int argc, char *argv[]) {
     }
 
     //Sesi 3: Pencarian Elemen Minimum dan Maksimum
+    //gettimeofday(&start, NULL);
     for (i = 0; i < 100; i++){
         for (j = 0; j < 100; j++){
+
             if(a[i][j]<minimal){
                 minimal=a[i][j];
             }
@@ -49,24 +60,21 @@ int main(int argc, char *argv[]) {
             }
         }
     }
+    //gettimeofday(&end, NULL);
+    //delta1 = ((end.tv_sec  - start.tv_sec) * 1000000u + end.tv_usec - start.tv_usec) / 1.e6;
 
-    //inisialisasi nilai variabel
-    summin=0; summaks=0;
+    //Sesi 4: Cetak Semua Hasil Pencarian
+    printf("\n \n Angka Paling Kecil: %d \n Angka Paling Besar: %d \n",minimal,maks);
+    //printf("\n CPU_time = %g \n",delta2);
 
-    //Sesi 4: Mencari Frekuensi Kemunculan Angka Minimum & Maksimum
-    for (i = 0; i < 100; i++){
-        for (j = 0; j < 100; j++){
-            if(a[i][j]==minimal){
-                summin+=1;
-            }
+	//Stop Clock Time
+	clock_t end = clock();
 
-            if(a[i][j]==maks){
-                summaks+=1;
-            }
-        }
-    }
-
-    //Sesi 5: Cetak Semua Hasil Pencarian
-    printf("\n \n Angka Paling Kecil: %d \n Muncul sebanyak: %d kali \n \n Angka Paling Besar: %d \n Muncul sebanyak: %d kali \n",minimal,summin,maks,summaks);
-    system("pause"); return 0;
+	//Calculate Clock Time
+	double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+	printf("\n Clock Time = %g \n",time_spent);
+	
+	system("pause"); return 0;
 }
+
+
